@@ -3,19 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Bus Loop 3D</title>
+<title>Bus Line</title>
 <style>
   html, body { margin: 0; height: 100%; overflow: hidden; background: #8fd3ff; }
   #unity-canvas { position: absolute; display: block; background: #8fd3ff; touch-action: none; outline: none; }
-  #load { position: absolute; left: 50%; top: 62%; transform: translateX(-50%); width: 56%; max-width: 280px; text-align: center;
-          font: 700 18px system-ui, sans-serif; color: #4a2c1a; }
-  #track { height: 16px; margin-top: 10px; border-radius: 9px; background: #fff6e6; border: 3px solid #4a2c1a; overflow: hidden; }
-  #bar { height: 100%; width: 0; background: #6bcb3b; transition: width .2s; }
+  #load { position: absolute; top: 0; height: 100%; background: #49a6f0 url("loading_bg.jpg") center top / cover no-repeat;
+          font: 800 18px system-ui, "Segoe UI", sans-serif; color: #fff; text-align: center; z-index: 2; }
+  #ribbon { position: absolute; left: 0; right: 0; top: 31.2%; transform: translateY(-50%); font-size: min(5.2vw, 3vh);
+            color: #fff; -webkit-text-stroke: 1.5px #a8400f; paint-order: stroke fill; text-shadow: 0 2px 0 #a8400f; }
+  #bottom { position: absolute; left: 12%; right: 12%; bottom: 6%; }
+  #msg { text-shadow: 0 2px 0 #b4501a, 0 0 6px rgba(120,60,20,.6); margin-bottom: 8px; font-size: 20px; }
+  #track { height: 26px; border-radius: 16px; padding: 4px; background: linear-gradient(#ffd25a, #f2a43a);
+           box-shadow: 0 4px 0 #b4501a, 0 8px 14px rgba(80,40,10,.3); }
+  #trackin { height: 100%; border-radius: 12px; background: #5b3a26; overflow: hidden; }
+  #bar { height: 100%; width: 0; border-radius: 12px; transition: width .2s;
+         background: linear-gradient(#a8ee6a 0 35%, #6bcb3b 35% 80%, #47a82a 80%); }
 </style>
 </head>
 <body>
 <canvas id="unity-canvas" tabindex="-1"></canvas>
-<div id="load">Đang tải Bus Loop…<div id="track"><div id="bar"></div></div></div>
+<div id="load"><div id="ribbon">Vẽ đường đón khách</div>
+  <div id="bottom"><div id="msg">Đang tải…</div><div id="track"><div id="trackin"><div id="bar"></div></div></div></div></div>
 <script>
   // portrait 9:16 game: fill a phone screen; on a wide screen keep 9:16, centred, full height
   var canvas = document.getElementById('unity-canvas');
@@ -24,6 +32,8 @@
     if (w / h > 9 / 16) { cw = Math.round(h * 9 / 16); }
     canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
     canvas.style.left = Math.round((w - cw) / 2) + 'px'; canvas.style.top = '0px';
+    var l = document.getElementById('load');
+    if (l) { l.style.width = cw + 'px'; l.style.left = canvas.style.left; }
   }
   window.addEventListener('resize', fit); fit();
 </script>
@@ -35,12 +45,12 @@
     codeUrl: "Build/WebGL.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "BusLoop",
-    productName: "Bus Loop 3D",
+    productName: "Bus Line",
     productVersion: "1.0",
     devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
   }, function (p) { document.getElementById('bar').style.width = (p * 100) + '%'; })
   .then(function () { document.getElementById('load').remove(); })
-  .catch(function (m) { document.getElementById('load').textContent = 'Không tải được game: ' + m; });
+  .catch(function (m) { document.getElementById('msg').textContent = 'Không tải được game: ' + m; });
 </script>
 </body>
 </html>
