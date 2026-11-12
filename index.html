@@ -37,12 +37,12 @@
   }
   window.addEventListener('resize', fit); fit();
 </script>
-<script src="Build/WebGL.loader.js"></script>
+<script src="Build/b23dd96997961653e2825455633aac82.loader.js"></script>
 <script>
   createUnityInstance(canvas, {
-    dataUrl: "Build/WebGL.data.unityweb",
-    frameworkUrl: "Build/WebGL.framework.js.unityweb",
-    codeUrl: "Build/WebGL.wasm.unityweb",
+    dataUrl: "Build/6f1d5ddf08e8d652bea1ce45cc1f4c4f.data.unityweb",
+    frameworkUrl: "Build/98d05048773536f88e4c9f0d4e57fa76.framework.js.unityweb",
+    codeUrl: "Build/414242fbba8d42549d6a73702a6fdf89.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "BusLoop",
     productName: "Bus Line",
@@ -50,7 +50,7 @@
     devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
   }, function (p) { document.getElementById('bar').style.width = (p * 100) + '%'; })
   .then(function () { document.getElementById('load').remove(); })
-  .catch(function (m) { document.getElementById('msg').textContent = 'Không tải được game: ' + m; });
+  .catch(function (m) { console.error(m); document.getElementById('msg').textContent = 'Không tải được game — hãy tải lại trang (Ctrl+F5)'; });
 </script>
 </body>
 </html>
