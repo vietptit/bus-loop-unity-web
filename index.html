@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Bus Loop 3D</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #8fd3ff; }
+  #unity-canvas { position: absolute; display: block; background: #8fd3ff; touch-action: none; outline: none; }
+  #load { position: absolute; left: 50%; top: 62%; transform: translateX(-50%); width: 56%; max-width: 280px; text-align: center;
+          font: 700 18px system-ui, sans-serif; color: #4a2c1a; }
+  #track { height: 16px; margin-top: 10px; border-radius: 9px; background: #fff6e6; border: 3px solid #4a2c1a; overflow: hidden; }
+  #bar { height: 100%; width: 0; background: #6bcb3b; transition: width .2s; }
+</style>
+</head>
+<body>
+<canvas id="unity-canvas" tabindex="-1"></canvas>
+<div id="load">Đang tải Bus Loop…<div id="track"><div id="bar"></div></div></div>
+<script>
+  // portrait 9:16 game: fill a phone screen; on a wide screen keep 9:16, centred, full height
+  var canvas = document.getElementById('unity-canvas');
+  function fit() {
+    var w = window.innerWidth, h = window.innerHeight, cw = w, ch = h;
+    if (w / h > 9 / 16) { cw = Math.round(h * 9 / 16); }
+    canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
+    canvas.style.left = Math.round((w - cw) / 2) + 'px'; canvas.style.top = '0px';
+  }
+  window.addEventListener('resize', fit); fit();
+</script>
+<script src="Build/WebGL.loader.js"></script>
+<script>
+  createUnityInstance(canvas, {
+    dataUrl: "Build/WebGL.data.unityweb",
+    frameworkUrl: "Build/WebGL.framework.js.unityweb",
+    codeUrl: "Build/WebGL.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "BusLoop",
+    productName: "Bus Loop 3D",
+    productVersion: "1.0",
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+  }, function (p) { document.getElementById('bar').style.width = (p * 100) + '%'; })
+  .then(function () { document.getElementById('load').remove(); })
+  .catch(function (m) { document.getElementById('load').textContent = 'Không tải được game: ' + m; });
+</script>
+</body>
+</html>
